@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Goutte;
 use App\Post;
+use App\TinTuc;
 class scrapeDanTri extends Command
 {
     /**
@@ -39,7 +40,7 @@ class scrapeDanTri extends Command
      */
     public function handle()
     {
-        $crawler = Goutte::request('GET', 'https://dantri.com.vn/xa-hoi.htm');
+        $crawler = Goutte::request('GET', 'https://dantri.com.vn/the-thao.htm');
     
     $linkPost = $crawler->filter('a.fon6')->each(function ($node) {
     return $node->attr("href");
@@ -59,6 +60,7 @@ class scrapeDanTri extends Command
     if(isset($title[0])){
         $title=$title[0];
     }
+    
 
         $slug= str_slug($title);
 
@@ -71,7 +73,7 @@ class scrapeDanTri extends Command
     }
         $description= str_replace('Dan Tri', '', $description);
 
-    $content=$crawler->filter('h2.fon33.mt1.sapo')->each(function ($node) {
+    $content=$crawler->filter('div.fon34.mt3.mr2.fon43.detail-content ')->each(function ($node) {
     return $node->text();
     });
      if(isset($content[0])){
@@ -88,14 +90,23 @@ class scrapeDanTri extends Command
 
 
     $data = [
-        'title' =>$title,
-        'slug' =>$slug,
-        'description' =>$description,
-        'content' => $content,
-        'thumbnail' =>$thumbnail
+        'TieuDe' =>$title,
+        'TieuDeKhongDau' =>$slug,
+        'TomTat' =>$description,
+        'NoiDung' => $content,
+        'Hinh' =>$thumbnail,
+        'NoiBat'=>'0',
+        'SoLuotXem'=>'0',
+        'idLoaiTin'=> '3'
+        // 'title' =>$title,
+        // 'slug' =>$slug,
+        // 'description' =>$description,
+        // 'content' => $content,
+        // 'thumbnail' =>$thumbnail
+
     ];
 
-    Post::create($data);
+    TinTuc::create($data);
 
     print("done!" ."\n");
 

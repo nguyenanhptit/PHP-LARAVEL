@@ -12,30 +12,49 @@
 
     </head>
     <body>
-        <div id="loginbox">            
-            <form id="loginform" class="form-vertical" action="index.html">
+        <div id="loginbox"> 
+        @if(Session::has('flash_message_error'))
+        
+        <div class="alert alert-error alert-block">
+        <button type="button" class="close" data-dismiss="alert">×</button> 
+        <strong>{!! session('flash_message_error') !!}</strong>
+        </div>
+          
+    @endif
+
+    @if(Session::has('flash_message_success'))
+        
+        <div class="alert alert-success alert-block">
+        <button type="button" class="close" data-dismiss="alert">×</button> 
+        <strong>{!! session('flash_message_success') !!}</strong>
+        </div>
+          
+    @endif
+            <form id="loginform" class="form-vertical" method="post" action="{{url('admin')}}">{{ csrf_field() }}
 				 <div class="control-group normal_text"> <h3><img src="{{asset('images/backend_images/logo.png')}}" alt="Logo" /></h3></div>
+                
+        
                 <div class="control-group">
                     <div class="controls">
                         <div class="main_input_box">
-                            <span class="add-on bg_lg"><i class="icon-user"> </i></span><input type="text" placeholder="Username" />
+                            <span class="add-on bg_lg"><i class="icon-user"> </i></span><input type="email" name="email" placeholder="Username" />
                         </div>
                     </div>
                 </div>
                 <div class="control-group">
                     <div class="controls">
                         <div class="main_input_box">
-                            <span class="add-on bg_ly"><i class="icon-lock"></i></span><input type="password" placeholder="Password" />
+                            <span class="add-on bg_ly"><i class="icon-lock"></i></span><input type="password" name="password" placeholder="Password" />
                         </div>
                     </div>
                 </div>
                 <div class="form-actions">
                     <span class="pull-left"><a href="#" class="flip-link btn btn-info" id="to-recover">Lost password?</a></span>
-                    <span class="pull-right"><a type="submit" href="index.html" class="btn btn-success" /> Login</a></span>
+                    <span class="pull-right"><input type="submit" name="Login" class="btn btn-success"/> </span>
                 </div>
             </form>
             <form id="recoverform" action="#" class="form-vertical">
-				<p class="normal_text">Enter your e-mail address below and we will send you instructions how to recover a password.</p>
+				<p class="normal_text">Enter your e-mail address below and we will send you instructions how to rsecover a password.</p>
 				
                     <div class="controls">
                         <div class="main_input_box">
@@ -52,6 +71,7 @@
         
         <script src="{{asset('js/backend_js/jquery.min.js')}}"></script>  
         <script src="{{asset('js/backend_js/matrix.login.js')}}"></script> 
+        <script src="{{ asset('js/backend_js/bootstrap.min.js')}}"></script> 
     </body>
 
 </html>
